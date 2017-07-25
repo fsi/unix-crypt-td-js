@@ -49,15 +49,21 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  */
 
-/**
- * Implements the Unix crypt(3) DES-based hash.
- *
- * @param {Array.<number>|string} pw The string to hash
- * @param {Array.<number>|string} salt The salt to use (two character string from [a-zA-Z0-9./]).
- * @param {boolean=} returnBytes (optional) If true, return an array of bytes;
- *                                      otherwise, return a string.
- */
-window['unixCryptTD'] = (function() {
+// UMD pattern
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define([], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like environments that support module.exports,
+        // like Node.
+        module.exports = factory();
+    } else {
+        // Browser globals (root is window)
+        root.unixCryptTD = factory();
+  }
+}(this, function () {
     /*
      * Initial permutation,
      */
@@ -396,6 +402,14 @@ window['unixCryptTD'] = (function() {
         return String.fromCharCode.apply(String, bytes);
     }
     
+    /**
+     * Implements the Unix crypt(3) DES-based hash.
+     *
+     * @param {Array.<number>|string} pw The string to hash
+     * @param {Array.<number>|string} salt The salt to use (two character string from [a-zA-Z0-9./]).
+     * @param {boolean=} returnBytes (optional) If true, return an array of bytes;
+     *                                      otherwise, return a string.
+     */
     return function crypt(pw, salt, returnBytes) {
         if (typeof(pw) === 'string') pw = strToBytes(pw);
         if (typeof(salt) === 'string') salt = strToBytes(salt);
@@ -453,4 +467,4 @@ window['unixCryptTD'] = (function() {
         if (returnBytes) return(iobuf);
         else return bytesToStr(iobuf);
     }
-})();
+}));
