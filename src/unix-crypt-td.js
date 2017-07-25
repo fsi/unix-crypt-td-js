@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Unix crypt(3) Javascript Implementation
  * 
@@ -348,10 +349,10 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  */
                          (preS[t+4]<<0)+
                          (preS[t+5]<<4)];
                 t = 4*j;
-                f[t+0] = (k>>3)&1;
-                f[t+1] = (k>>2)&1;
-                f[t+2] = (k>>1)&1;
-                f[t+3] = (k>>0)&1;
+                f[t+0] = (k>>3)&0o1;
+                f[t+1] = (k>>2)&0o1;
+                f[t+2] = (k>>1)&0o1;
+                f[t+3] = (k>>0)&0o1;
             }
             /*
              * The new R is L ^ f(R, K).
@@ -420,7 +421,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  */
             block[i] = 0;
         for(i=0, k=0; (c= pw[k]) && i<64; ++k){
             for(j=0; j<7; j++, i++)
-                block[i] = (c>>(6-j)) & 01;
+                block[i] = (c>>(6-j)) & 0o1;
             i++;
         }
 
@@ -439,7 +440,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  */
             if(c>'9'.charCodeAt(0)) c -= 7;
             c -= '.'.charCodeAt(0);
             for(j=0;j<6;j++){
-                if((c>>j) & 01){
+                if((c>>j) & 0o1){
                     temp = E[6*i+j];
                     E[6*i+j] = E[6*i+j+24];
                     E[6*i+j+24] = temp;
