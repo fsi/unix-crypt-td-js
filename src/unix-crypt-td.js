@@ -348,10 +348,10 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  */
                          (preS[t+4]<<0)+
                          (preS[t+5]<<4)];
                 t = 4*j;
-                f[t+0] = (k>>3)&01;
-                f[t+1] = (k>>2)&01;
-                f[t+2] = (k>>1)&01;
-                f[t+3] = (k>>0)&01;
+                f[t+0] = (k>>3)&1;
+                f[t+1] = (k>>2)&1;
+                f[t+2] = (k>>1)&1;
+                f[t+3] = (k>>0)&1;
             }
             /*
              * The new R is L ^ f(R, K).
